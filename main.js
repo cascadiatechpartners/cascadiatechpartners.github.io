@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var action = form.getAttribute('action');
       if (!action || action.includes('YOUR_FORMSPREE_ID')) {
-        statusEl.innerHTML = 'Form handler not configured. Please replace <code>YOUR_FORMSPREE_ID</code> in the form action with your Formspree ID, or email <a href="mailto:inquiries@cascadiatechpartners.com">inquiries@cascadiatechpartners.com</a>.';
+        statusEl.innerHTML = 'Form handler not configured. Please email <a href="mailto:inquiries@cascadiatechpartners.com">inquiries@cascadiatechpartners.com</a>.';
         return;
       }
 
