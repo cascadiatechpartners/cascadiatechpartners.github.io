@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Cascadia Tech Partners</title>
+  <meta name="description" content="Contact Cascadia Tech Partners for Technical Project Management, IT systems, and security consulting. Email: inquiries@cascadiatechpartners.com" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Cascadia Tech Partners</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" id="navToggle4">☰</button>
+      <nav id="site-nav" class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="content">
+      <h1>Contact</h1>
+      <p>General inquiries: <a href="mailto:inquiries@cascadiatechpartners.com">inquiries@cascadiatechpartners.com</a></p>
+
+      <h2>Send us a message</h2>
+      <!--
+        Replace YOUR_FORMSPREE_ID below with your Formspree form ID (e.g. https://formspree.io/f/abcd1234)
+        Or replace the action URL with your preferred form handler (Netlify Forms or other).
+      -->
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" novalidate>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="company">Company (optional)</label>
+        <input id="company" name="company" type="text" />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <!-- optional: Formspree specific hidden field to redirect after submit (adjust if you want) -->
+        <input type="hidden" name="_subject" value="Website inquiry - Cascadia Tech Partners" />
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Send message</button>
+        </div>
+
+        <div id="formStatus" class="form-status" aria-live="polite"></div>
+      </form>
+
+      <noscript>
+        <p>JavaScript is disabled — you can still send an email to <a href="mailto:inquiries@cascadiatechpartners.com">inquiries@cascadiatechpartners.com</a>.</p>
+      </noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year4"></span> Cascadia Tech Partners</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
