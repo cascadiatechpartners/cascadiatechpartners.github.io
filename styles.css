@@ -98,3 +98,20 @@ input[type="text"],input[type="email"],textarea{
 
 /* Utility */
 .link-inline:hover{text-decoration:underline}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  margin-right: .5rem;
+  border-radius: 50%;
+  background: var(--brand);
+  display: inline-block;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+}
+
