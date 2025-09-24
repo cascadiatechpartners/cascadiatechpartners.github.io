@@ -32,6 +32,7 @@ body{
 .header-inner{display:flex;align-items:center;gap:1rem;justify-content:space-between}
 .brand{font-weight:600;text-decoration:none;color:var(--brand)}
 .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.container.header-inner{padding: 0.25rem 1.5rem;}
 
 .site-header{border-bottom:1px solid #eee;background:transparent;position:sticky;top:0;z-index:30}
 .site-nav{display:flex;gap:1rem;align-items:center}
@@ -100,8 +101,8 @@ input[type="text"],input[type="email"],textarea{
 .link-inline:hover{text-decoration:underline}
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  border: 0px solid black;
 }
 .logo-large {
   max-width: 180px;
