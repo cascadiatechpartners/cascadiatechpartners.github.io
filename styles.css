@@ -34,7 +34,7 @@ body{
 .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .container.header-inner{padding: 0.25rem 1.5rem;}
 
-.site-header{border-bottom:1px solid #eee;background:transparent;position:sticky;top:0;z-index:30}
+.site-header{border-bottom:1px solid #eee;background:#ffffff;position:sticky;top:0;z-index:30}
 .site-nav{display:flex;gap:1rem;align-items:center}
 .site-nav a{color:inherit;text-decoration:none;padding:.5rem;transition:var(--transition)}
 .site-nav a:hover{background:var(--surface);border-radius:6px}
