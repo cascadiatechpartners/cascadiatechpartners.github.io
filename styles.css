@@ -100,8 +100,8 @@ input[type="text"],input[type="email"],textarea{
 .link-inline:hover{text-decoration:underline}
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
 }
 .logo-large {
   max-width: 180px;
