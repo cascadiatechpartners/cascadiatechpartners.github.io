@@ -1,3 +1,21 @@
+// Load nav.html into #site-nav
+fetch('nav.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('site-nav').innerHTML = html;
+
+    // After loading, re-bind dropdown toggles
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var menu = btn.nextElementSibling;
+        var isOpen = menu.classList.toggle('show');
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+  })
+  .catch(err => console.error('Failed to load nav:', err));
+
 document.addEventListener('DOMContentLoaded', function () {
   // set years in footer
   var y = new Date().getFullYear();
