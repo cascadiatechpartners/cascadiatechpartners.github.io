@@ -53,7 +53,39 @@
       <p>© <span id="year2"></span> Cascadia Tech Partners · <a href="contact.html">Contact</a></p>
     </div>
   </footer>
-
+  
+  <!-- Main JS -->
   <script src="main.js"></script>
+
+  <!-- Load nav.html dynamically -->
+  <script>
+    // Load navigation
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('site-nav').innerHTML = html;
+
+        // Bind dropdown toggles after loading
+        document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+          btn.addEventListener('click', function(e){
+            e.stopPropagation();
+            var menu = btn.nextElementSibling;
+            var isOpen = menu.classList.toggle('show');
+            btn.setAttribute('aria-expanded', String(isOpen));
+          });
+        });
+      })
+      .catch(err => console.error('Failed to load nav:', err));
+
+    // Close dropdowns if clicking outside
+    document.addEventListener('click', function(){
+      document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+        menu.classList.remove('show');
+        var toggle = menu.previousElementSibling;
+        if(toggle) toggle.setAttribute('aria-expanded','false');
+      });
+    });
+  </script>
+  
 </body>
 </html>
