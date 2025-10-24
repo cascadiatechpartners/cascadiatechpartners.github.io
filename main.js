@@ -1,19 +1,37 @@
-// main.js
 document.addEventListener('DOMContentLoaded', function () {
   // set years in footer
   var y = new Date().getFullYear();
-  ['year','year2','year3','year4'].forEach(id => {
+  ['year','year2','year3','year4','year5'].forEach(id => {
     var el = document.getElementById(id);
     if (el) el.textContent = y;
   });
 
-  // responsive nav toggles
+  // responsive nav toggles (main menu)
   document.querySelectorAll('.nav-toggle').forEach(btn => {
     btn.addEventListener('click', function () {
       var nav = document.getElementById('site-nav');
       if (!nav) return;
       var isOpen = nav.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  // Dropdown toggle for Services (mobile)
+  document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation(); // prevent closing immediately
+      var menu = btn.nextElementSibling;
+      var isOpen = menu.classList.toggle('show');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  // Close dropdowns if clicking outside
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+      menu.classList.remove('show');
+      var toggle = menu.previousElementSibling;
+      if(toggle) toggle.setAttribute('aria-expanded','false');
     });
   });
 
