@@ -3,33 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cascadia Tech Partners — Home</title>
-  <meta name="description" content="Cascadia Tech Partners — Technical Project Management, Small Business IT Systems, and Security Consulting for Pacific Northwest organizations." />
-  <meta name="keywords" content="Technical Project Management, IT Systems, Security Consulting, Cascadia, Small Business IT" />
-  <link rel="canonical" href="https://cascadiatechpartners.com" />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Cascadia Tech Partners" />
-  <meta property="og:description" content="Technical Project Management, Small Business IT Systems, and Security Consulting." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://cascadiatechpartners.com" />
-  <meta property="og:site_name" content="Cascadia Tech Partners" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Cascadia Tech Partners" />
-  <meta name="twitter:description" content="Technical Project Management, Small Business IT Systems, and Security Consulting." />
-
-  <!-- SEO: structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Cascadia Tech Partners",
-    "url": "https://cascadiatechpartners.com/",
-    "email": "mailto:inquiries@cascadiatechpartners.com",
-    "sameAs": []
-  }
-  </script>
-
+  <title>Cascadia Tech Partners</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -38,69 +12,82 @@
       <a class="brand" href="index.html">
         <img src="i/ctp_logo.png" alt="Cascadia Tech Partners logo" class="logo">
       </a>
+
+      <!-- Mobile nav toggle -->
       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" id="navToggle">
         <span class="sr-only">Open navigation</span>
         ☰
       </button>
-      <nav id="site-nav" class="site-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+
+      <!-- Nav container will be populated via JS -->
+      <nav id="site-nav" class="site-nav"></nav>
     </div>
   </header>
 
-  <main>
+  <main class="container">
     <section class="hero">
-      <div class="container">
-        <h1>Partnering to deliver pragmatic technology solutions</h1>
-        <p class="lead">Technical project management, IT systems for small businesses, and security consulting — focused on reliable outcomes and clear communication.</p>
-        <p><a class="btn" href="services.html">Explore our services</a> <a class="btn ghost" href="contact.html">Get in touch</a></p>
-      </div>
+      <h1>Welcome to Cascadia Tech Partners</h1>
+      <p class="lead">Flexible, vendor-agnostic IT and engineering solutions for startups and growing businesses.</p>
     </section>
 
-<section class="features container">
-  <article class="card">
-    <h3>Technical Project and Account Management</h3>
-    <p>Fractional Technical Project and Account Management to help you deliver complex initiatives efficiently—without full-time overhead.</p>
-    <p><a href="tm.html" class="link-inline">Learn more →</a></p>
-  </article>
+    <section class="features container">
+      <article class="card">
+        <h3>Technical Project and Account Management</h3>
+        <p>Fractional Technical Project and Account Management to help you deliver complex initiatives efficiently—without full-time overhead.</p>
+        <p><a href="tm.html" class="link-inline">Learn more →</a></p>
+      </article>
 
-  <article class="card">
-    <h3>Small Business IT Systems</h3>
-    <p>On-demand, vendor-agnostic IT systems consulting for small businesses—reliable, secure, and flexible support when you need it.</p>
-    <p><a href="itsystems.html" class="link-inline">Learn more →</a></p>
-  </article>
+      <article class="card">
+        <h3>Small Business IT Systems</h3>
+        <p>On-demand, vendor-agnostic IT systems consulting for small businesses—reliable, secure, and flexible support when you need it.</p>
+        <p><a href="itsystems.html" class="link-inline">Learn more →</a></p>
+      </article>
 
-  <article class="card">
-    <h3>Sales and Solutions Engineering</h3>
-    <p>Flexible, vendor-agnostic Sales and Solutions Engineering to help your business grow smarter—without the overhead of full-time staff.</p>
-    <p><a href="saleseng.html" class="link-inline">Learn more →</a></p>
-  </article>
-</section>
-
-    <section class="container about-preview">
-      <div class="split">
-        <div>
-          <h2>About Cascadia Tech Partners</h2>
-          <p>We help small and medium organizations in the Pacific Northwest and beyond by bringing experienced technical leadership, pragmatic IT design, and sensible security practices to every engagement.</p>
-          <p><a class="link-inline" href="about.html">Read our story →</a></p>
-        </div>
-        <div>
-          <!-- placeholder for future image or logo -->
-          <div class="placeholder">Logo / Image</div>
-        </div>
-      </div>
+      <article class="card">
+        <h3>Sales and Solutions Engineering</h3>
+        <p>Flexible, vendor-agnostic Sales and Solutions Engineering to help your business grow smarter—without the overhead of full-time staff.</p>
+        <p><a href="saleseng.html" class="link-inline">Learn more →</a></p>
+      </article>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>© <span id="year"></span> Cascadia Tech Partners · <a href="contact.html">Contact</a></p>
+      <p>© <span id="year3"></span> Cascadia Tech Partners · <a href="contact.html">Contact</a></p>
     </div>
   </footer>
 
+  <!-- Main JS -->
   <script src="main.js"></script>
+
+  <!-- Load nav.html dynamically -->
+  <script>
+    // Load navigation
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('site-nav').innerHTML = html;
+
+        // Bind dropdown toggles after loading
+        document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+          btn.addEventListener('click', function(e){
+            e.stopPropagation();
+            var menu = btn.nextElementSibling;
+            var isOpen = menu.classList.toggle('show');
+            btn.setAttribute('aria-expanded', String(isOpen));
+          });
+        });
+      })
+      .catch(err => console.error('Failed to load nav:', err));
+
+    // Close dropdowns if clicking outside
+    document.addEventListener('click', function(){
+      document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+        menu.classList.remove('show');
+        var toggle = menu.previousElementSibling;
+        if(toggle) toggle.setAttribute('aria-expanded','false');
+      });
+    });
+  </script>
 </body>
 </html>
