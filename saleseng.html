@@ -31,15 +31,17 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">
-        <img src="i/ctp_logo.png" alt="Cascadia Tech Partners" class="logo">
+        <img src="i/ctp_logo.png" alt="Cascadia Tech Partners logo" class="logo">
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" id="navToggle3">☰</button>
-      <nav id="site-nav" class="site-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="services.html" aria-current="page">Services</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+
+      <!-- Mobile nav toggle -->
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" id="navToggle">
+        <span class="sr-only">Open navigation</span>
+        ☰
+      </button>
+
+      <!-- Nav container will be populated via JS -->
+      <nav id="site-nav" class="site-nav"></nav>
     </div>
   </header>
 
