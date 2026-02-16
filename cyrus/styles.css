@@ -1,0 +1,287 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    border: 4px solid #d4af37;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5),
+                inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+#gameCanvas {
+    display: block;
+    background: linear-gradient(180deg, #87ceeb 0%, #98fb98 100%);
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+#abilities-panel {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 180px;
+}
+
+#abilities-panel h3 {
+    color: #d4af37;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.ability {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin: 5px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.ability.unlocked {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(255, 215, 0, 0.2));
+    border: 1px solid #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.ability.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.ability-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.ability-name {
+    color: #fff;
+    font-size: 14px;
+}
+
+#stars-counter {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+#level-display {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #98fb98;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(152, 251, 152, 0.5);
+}
+
+.star-icon {
+    margin-right: 5px;
+}
+
+#controls-hint {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 15px;
+    color: #ccc;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+#controls-hint p {
+    margin: 3px 0;
+}
+
+#start-screen, #victory-screen, #level-complete-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    z-index: 100;
+}
+
+#start-screen h1, #victory-screen h1 {
+    font-size: 48px;
+    color: #d4af37;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.8),
+                 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 20px;
+    color: #98fb98;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.description {
+    font-size: 16px;
+    color: #ccc;
+    max-width: 500px;
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.description strong {
+    color: #ffd700;
+}
+
+#new-abilities-text {
+    font-size: 18px;
+    color: #ffd700;
+    margin: 20px 0;
+    text-align: center;
+}
+
+#new-abilities-text .ability-unlocked {
+    display: inline-block;
+    margin: 5px 10px;
+    padding: 8px 15px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(255, 215, 0, 0.2));
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    color: #fff;
+}
+
+/* Health bar */
+#health-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+#health-bar {
+    width: 200px;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444, #ff6666);
+    transition: width 0.3s ease;
+    width: 100%;
+}
+
+#health-text {
+    color: #fff;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+button {
+    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a1a2e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Georgia', serif;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Collection animation */
+@keyframes starCollect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.star-collected {
+    animation: starCollect 0.5s ease-out forwards;
+}
+
+/* Ability unlock animation */
+@keyframes abilityUnlock {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.ability.just-unlocked {
+    animation: abilityUnlock 0.6s ease-out;
+}
+
+/* Particle effects */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+}
