@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyrus's Quest - A Zelda-Inspired Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="ui-overlay">
+            <div id="level-display">
+                <span id="level-name">Level 1: The Beginning</span>
+            </div>
+            
+            <div id="abilities-panel">
+                <h3>Abilities</h3>
+                <div id="abilities-list">
+                    <div class="ability locked" data-ability="dash">
+                        <span class="ability-icon">⚡</span>
+                        <span class="ability-name">Dash</span>
+                    </div>
+                    <div class="ability locked" data-ability="doubleJump">
+                        <span class="ability-icon">🦅</span>
+                        <span class="ability-name">Double Jump</span>
+                    </div>
+                    <div class="ability locked" data-ability="superJump">
+                        <span class="ability-icon">🚀</span>
+                        <span class="ability-name">Super Jump</span>
+                    </div>
+                    <div class="ability locked" data-ability="shield">
+                        <span class="ability-icon">🛡️</span>
+                        <span class="ability-name">Shield</span>
+                    </div>
+                    <div class="ability locked" data-ability="sword">
+                        <span class="ability-icon">⚔️</span>
+                        <span class="ability-name">Sword</span>
+                    </div>
+                    <div class="ability locked" data-ability="bow">
+                        <span class="ability-icon">🏹</span>
+                        <span class="ability-name">Bow</span>
+                    </div>
+                    <div class="ability locked" data-ability="hookshot">
+                        <span class="ability-icon">🪝</span>
+                        <span class="ability-name">Hookshot</span>
+                    </div>
+                    <div class="ability locked" data-ability="timeSlow">
+                        <span class="ability-icon">⏰</span>
+                        <span class="ability-name">Time Slow</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="stars-counter">
+                <span class="star-icon">⭐</span>
+                <span id="stars-collected">0</span> / <span id="stars-total">5</span>
+            </div>
+            
+            <div id="controls-hint">
+                <p>Arrow Keys / WASD - Move</p>
+                <p>Space - Jump</p>
+                <p>Shift - Dash</p>
+                <p>E - Shield</p>
+                <p>J - Sword Attack</p>
+                <p>K - Bow Arrow</p>
+                <p>L - Hookshot</p>
+                <p>T - Slow Time</p>
+            </div>
+        </div>
+        
+        <div id="health-container">
+            <div id="health-bar">
+                <div id="health-fill"></div>
+            </div>
+            <div id="health-text">❤️ <span id="health-value">100</span>/100</div>
+        </div>
+        
+        <div id="start-screen">
+            <h1>⚔️ Cyrus's Quest ⚔️</h1>
+            <p class="subtitle">A Zelda-Inspired Adventure</p>
+            <p class="description">
+                Journey through <strong>5 mystical levels</strong> collecting 
+                <strong>Triforce Stars</strong> to unlock legendary abilities!
+            </p>
+            <p class="description">
+                Defeat monsters, overcome challenges, and master all 8 powers 
+                to complete your epic quest!
+            </p>
+            <button id="start-btn">Begin Adventure</button>
+        </div>
+        
+        <div id="level-complete-screen" class="hidden">
+            <h1>🌟 Level Complete! 🌟</h1>
+            <p id="level-complete-text">You've collected all the stars!</p>
+            <p id="new-abilities-text"></p>
+            <button id="next-level-btn">Next Level</button>
+        </div>
+        
+        <div id="victory-screen" class="hidden">
+            <h1>🎉 Victory! 🎉</h1>
+            <p>You have collected all the Triforce Stars!</p>
+            <p>All legendary abilities are now yours!</p>
+            <button id="restart-btn">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
