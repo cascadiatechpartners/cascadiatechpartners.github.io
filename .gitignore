@@ -1,0 +1,13 @@
+# Ignore backend sensitive files
+backend/.env
+backend/node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book a Consultation — Cascadia Tech Partners</title>
+  <meta name="description" content="Book a 30-minute business consultation with Cascadia Tech Partners for $50." />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-99D6BHSKH4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-99D6BHSKH4');
+  </script>
+  <style>
+    .booking-container { max-width: 720px; margin: 0 auto; }
+    .booking-section { 
+      background: var(--surface); 
+      padding: 1.5rem; 
+      border-radius: var(--radius); 
+      margin-bottom: 1.5rem;
+    }
+    .booking-section h3 { margin-top: 0; color: var(--brand); }
+    .form-group { margin-bottom: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    
+    /* Date/Time selection */
+    .date-picker { 
+      width: 100%; 
+      padding: 0.6rem; 
+      border-radius: 8px; 
+      border: 1px solid #ddd; 
+      font-size: 1rem;
+    }
+    .time-slots { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+      gap: 0.5rem; 
+      margin-top: 0.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .time-slot {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      text-align: center;
+      transition: all 180ms ease;
+    }
+    .time-slot:hover { 
+      border-color: var(--brand); 
+      background: var(--brand); 
+      color: #fff;
+    }
+    .time-slot.selected { 
+      background: var(--brand); 
+      color: #fff; 
+      border-color: var(--brand);
+    }
+    .time-slot.disabled { 
+      opacity: 0.4; 
+      cursor: not-allowed; 
+      background: #f0f0f0;
+    }
+    
+    /* Loading states */
+    .loading { 
+      opacity: 0.6; 
+      pointer-events: none; 
+      position: relative;
+    }
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 24px;
+      height: 24px;
+      margin: -12px 0 0 -12px;
+      border: 3px solid var(--brand);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Status messages */
+    .status-message { 
+      padding: 1rem; 
+      border-radius: 8px; 
+      margin: 1rem 0;
+    }
+    .status-message.error { background: #fee; color: #c00; border: 1px solid #fcc; }
+    .status-message.success { background: #efe; color: #060; border: 1px solid #cfc; }
+    .status-message.info { background: #eef; color: #006; border: 1px solid #ccf; }
+    
+    /* Order summary */
+    .order-summary {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      margin: 1rem 0;
+    }
+    .order-summary .line-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .order-summary .line-item:last-child {
+      border-bottom: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: var(--brand);
+    }
+    
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="i/ctp_logo.png" alt="Cascadia Tech Partners logo" class="logo">
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" id="navToggle">
+        <span class="sr-only">Open navigation</span>
+        ☰
+      </button>
+
+      <nav id="site-nav" class="site-nav"></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="content">
+      <h1>Book a Consultation</h1>
+      <p>Schedule a 30-minute consultation session with our experts. <strong>$50 USD</strong>.</p>
+      
+      <div id="canceledMessage" class="status-message error hidden">
+        Payment was canceled. Please select a new time slot if you'd like to continue.
+      </div>
+      
+      <div class="booking-container">
+        <!-- Step 1: Your Information -->
+        <div class="booking-section" id="step1">
+          <h3>Step 1: Your Information</h3>
+          <form id="bookingForm">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input id="name" name="name" type="text" required placeholder="John Doe" />
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input id="email" name="email" type="email" required placeholder="john@company.com" />
+              </div>
+              <div class="form-group">
+                <label for="company">Company (optional)</label>
+                <input id="company" name="company" type="text" placeholder="Your Company" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone (optional)</label>
+              <input id="phone" name="phone" type="tel" placeholder="+1 (555) 123-4567" />
+            </div>
+            
+            <div class="form-actions">
+              <button type="button" class="btn" id="btnStep1">Continue to Step 2 →</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 2: Select Date & Time -->
+        <div class="booking-section hidden" id="step2">
+          <h3>Step 2: Select Date & Time</h3>
+          <p style="color: var(--muted); font-size: 0.9rem;">All times shown in your local timezone (<span id="timezoneDisplay"></span>)</p>
+          
+          <div class="form-group">
+            <label for="selectedDate">Select Date *</label>
+            <input type="date" id="selectedDate" class="date-picker" required />
+          </div>
+          
+          <div id="timeSlotsContainer" class="hidden">
+            <label>Available Time Slots *</label>
+            <div id="timeSlots" class="time-slots"></div>
+          </div>
+          
+          <div id="slotsLoading" class="loading hidden" style="height: 100px;"></div>
+          <div id="slotsError" class="status-message error hidden"></div>
+          
+          <div class="form-actions" style="margin-top: 1rem;">
+            <button type="button" class="btn ghost" id="btnBack2">← Back</button>
+            <button type="button" class="btn" id="btnStep2" disabled>Continue to Review →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Review & Pay -->
+        <div class="booking-section hidden" id="step3">
+          <h3>Step 3: Review & Payment</h3>
+          
+          <div class="order-summary">
+            <h4 style="margin-top: 0;">Order Summary</h4>
+            <div class="line-item">
+              <span>Consultation (30 min)</span>
+              <span>$50.00</span>
+            </div>
+            <div class="line-item">
+              <span>Date & Time</span>
+              <span id="summaryDateTime">-</span>
+            </div>
+            <div class="line-item">
+              <span>Client</span>
+              <span id="summaryClient">-</span>
+            </div>
+            <div class="line-item">
+              <span><strong>Total</strong></span>
+              <span><strong>$50.00 USD</strong></span>
+            </div>
+          </div>
+          
+          <div id="paymentError" class="status-message error hidden"></div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn ghost" id="btnBack3">← Back</button>
+            <button type="button" class="btn" id="btnPay">Proceed to Payment →</button>
+          </div>
+        </div>
+      </div>
+      
+      <noscript>
+        <p style="color: #c00;">JavaScript is required to complete the booking process. Please enable JavaScript in your browser.</p>
+      </noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year5"></span> Cascadia Tech Partners · <a href="contact.html">Contact</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="booking.js"></script>
+</body>
+</html>

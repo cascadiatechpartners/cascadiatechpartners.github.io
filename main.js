@@ -19,7 +19,7 @@ fetch('nav.html')
 document.addEventListener('DOMContentLoaded', function () {
   // set years in footer
   var y = new Date().getFullYear();
-  ['year','year2','year3','year4','year5'].forEach(id => {
+  ['year','year2','year3','year4','year5','year6'].forEach(id => {
     var el = document.getElementById(id);
     if (el) el.textContent = y;
   });
