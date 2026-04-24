@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>CCNA Readiness Assessment | Knowledge Gap Analyzer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e9f0f5 0%, #d9e2ec 100%);
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      padding: 2rem 1.5rem;
+      color: #102a3c;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Header & intro */
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      background: linear-gradient(135deg, #0b3b4f, #1c6e8f);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .badge {
+      background: #f4c542;
+      color: #2d2f36;
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 680px;
+      margin: 0 auto;
+      color: #1e4a62;
+      font-weight: 500;
+    }
+
+    /* main card layout */
+    .assessment-panel {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      padding: 1.8rem 2rem;
+      transition: all 0.2s;
+    }
+
+    /* progress area */
+    .progress-area {
+      margin-bottom: 2rem;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .q-counter {
+      background: #102a3c;
+      color: white;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+    }
+
+    .score-preview {
+      background: #eef2f5;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      color: #0f4c5f;
+    }
+
+    .progress-bar-bg {
+      background: #cddfe7;
+      border-radius: 30px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #2c9b77;
+      width: 0%;
+      height: 12px;
+      border-radius: 30px;
+      transition: width 0.25s ease;
+    }
+
+    /* question card */
+    .question-card {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(60, 130, 150, 0.2);
+    }
+
+    .question-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0c3f51;
+      margin-bottom: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f8fafc;
+      padding: 0.9rem 1.2rem;
+      border-radius: 1.2rem;
+      border: 1px solid #dce7ef;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background: #eef4fa;
+      border-color: #7fbbd3;
+      transform: translateX(4px);
+    }
+
+    input[type="radio"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: #1e7e5e;
+      cursor: pointer;
+    }
+
+    .option label {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1f5068;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    /* navigation area */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #e2eaf0;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 3rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1f5e7a;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    button.primary {
+      background: #1f7a5c;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    button.primary:hover {
+      background: #0f6048;
+      transform: scale(0.97);
+    }
+
+    button.secondary {
+      background: #cddce5;
+    }
+
+    button.secondary:hover {
+      background: #b9cddb;
+    }
+
+    button.outline {
+      background: transparent;
+      border: 1px solid #397e9b;
+      color: #266281;
+    }
+
+    button.outline:hover {
+      background: #e0eff7;
+    }
+
+    /* results area */
+    .results-container {
+      margin-top: 2rem;
+      background: #fefdf7;
+      border-radius: 1.8rem;
+      padding: 1.8rem;
+      border-top: 5px solid #f4c542;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .results-container h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .knowledge-gap {
+      background: #fff2e0;
+      border-left: 6px solid #e67e22;
+      padding: 1.2rem;
+      border-radius: 1rem;
+      margin: 1rem 0;
+    }
+
+    .gap-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .gap-tag {
+      background: #ffedd5;
+      color: #b45f1b;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .domain-score {
+      margin-top: 1.2rem;
+    }
+
+    .domain-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0.7rem 0;
+      flex-wrap: wrap;
+    }
+
+    .domain-name {
+      width: 140px;
+      font-weight: 700;
+    }
+
+    .domain-bar-bg {
+      flex: 1;
+      background: #e2e8f0;
+      border-radius: 20px;
+      height: 10px;
+    }
+
+    .domain-bar-fill {
+      height: 10px;
+      border-radius: 20px;
+      background: #2c9b77;
+      width: 0%;
+    }
+
+    .domain-percent {
+      width: 48px;
+      font-weight: 600;
+      color: #2c5f7a;
+    }
+
+    .reset-area {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #55809b;
+    }
+
+    @media (max-width: 700px) {
+      .assessment-panel {
+        padding: 1rem;
+      }
+      .question-text {
+        font-size: 1.2rem;
+      }
+      .domain-name {
+        width: 110px;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .warning {
+      background: #ffe8e6;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="badge">📡 Cisco CCNA 200-301 Style</div>
+    <h1>⚡ CCNA Knowledge Mapper</h1>
+    <p>Answer 15 targeted questions to discover which CCNA domains need your focus. <br> Get a personalized study roadmap before the real exam.</p>
+  </div>
+
+  <div class="assessment-panel" id="assessmentApp">
+    <!-- progress -->
+    <div class="progress-area">
+      <div class="progress-stats">
+        <span class="q-counter" id="questionCounter">Question 1 / 15</span>
+        <span class="score-preview" id="answeredStatus">📋 0 answered</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <!-- dynamic question area -->
+    <div id="questionPanel"></div>
+
+    <!-- navigation row -->
+    <div class="nav-buttons">
+      <button id="prevBtn" class="secondary">◀ Previous</button>
+      <button id="nextBtn" class="primary">Next ▶</button>
+      <button id="submitBtn" class="outline">✅ Finish & Analyze</button>
+    </div>
+
+    <!-- results panel (hidden initially) -->
+    <div id="resultsPanel" class="results-container hidden">
+      <!-- dynamic results injected -->
+    </div>
+    <footer>💡 Each question maps to a CCNA domain — final report highlights weak areas for targeted study.</footer>
+  </div>
+</div>
+
+<script>
+  // ---------- CCNA QUESTION BANK (15 questions, 6 domains)
+  // Domains: Network Fundamentals, IP Connectivity, IP Services, Security Fundamentals, Automation & Programmability, Network Access
+  const DOMAINS = {
+    "Network Fundamentals": { short: "NetFund", weight: 0 },
+    "IP Connectivity": { short: "IPC", weight: 0 },
+    "IP Services": { short: "IPSvc", weight: 0 },
+    "Security Fundamentals": { short: "SecFund", weight: 0 },
+    "Automation & Programmability": { short: "AutoProg", weight: 0 },
+    "Network Access": { short: "NetAcc", weight: 0 }
+  };
+
+  const QUESTIONS = [
+    { text: "Which OSI layer is responsible for logical addressing and path determination?", options: ["Physical", "Data Link", "Network", "Transport"], correct: 2, domain: "Network Fundamentals" },
+    { text: "What does the IPv4 address 192.168.1.0/24 define?", options: ["A broadcast address", "A usable host address", "A network address", "A multicast group"], correct: 2, domain: "Network Fundamentals" },
+    { text: "Which routing protocol uses path cost based on cumulative interface bandwidth by default?", options: ["RIPv2", "OSPF", "EIGRP", "BGP"], correct: 1, domain: "IP Connectivity" },
+    { text: "A switch receives a frame with a destination MAC not found in its CAM table. What action does it take?", options: ["Drop the frame", "Flood to all ports (except source)", "Send to default gateway", "Reply with ARP request"], correct: 1, domain: "Network Access" },
+    { text: "Which of the following is a characteristic of standard IPv4 ACLs?", options: ["Filters based on source IP only", "Filters based on source and destination ports", "Filters based on application layer", "Filters based on MAC addresses"], correct: 0, domain: "Security Fundamentals" },
+    { text: "What protocol provides automatic IP configuration and additional options like DNS server address?", options: ["DHCP", "DNS", "ARP", "NAT"], correct: 0, domain: "IP Services" },
+    { text: "Which technology allows multiple VLANs to traverse a single trunk link between switches?", options: ["VTP", "802.1Q", "ISL (obsolete)", "STP"], correct: 1, domain: "Network Access" },
+    { text: "What does 'show ip interface brief' display?", options: ["Routing table summary", "Interface IP status and line protocol", "ARP table", "MAC address table"], correct: 1, domain: "Network Fundamentals" },
+    { text: "Which NETCONF operation retrieves configuration data from a device?", options: ["<get-config>", "<edit-config>", "<lock>", "<close>"], correct: 0, domain: "Automation & Programmability" },
+    { text: "What is the primary function of the Spanning Tree Protocol (STP)?", options: ["Prevent routing loops", "Prevent switching loops", "Provide redundancy at layer 3", "Increase collision domain"], correct: 1, domain: "Network Access" },
+    { text: "Which first-hop redundancy protocol is Cisco proprietary and provides default gateway failover?", options: ["HSRP", "VRRP", "GLBP", "CARP"], correct: 0, domain: "IP Services" },
+    { text: "A hacker performs a MAC flooding attack on a switch. Which security feature mitigates this?", options: ["DHCP Snooping", "Port Security", "Dynamic ARP Inspection", "ACL"], correct: 1, domain: "Security Fundamentals" },
+    { text: "What JSON data type is used to represent a list of values in RESTCONF?", options: ["Object", "Array", "String", "Number"], correct: 1, domain: "Automation & Programmability" },
+    { text: "Which OSPF state indicates that routers have exchanged DBD packets and formed adjacency?", options: ["INIT", "2-WAY", "EXSTART", "FULL"], correct: 3, domain: "IP Connectivity" },
+    { text: "What is the purpose of NAT Overload (PAT) in IPv4 networks?", options: ["Translate multiple private IPs to one public IP using ports", "Translate IPv6 to IPv4", "Encrypt IP traffic", "Reduce broadcast domain"], correct: 0, domain: "IP Services" }
+  ];
+
+  // verify 15 questions count
+  console.assert(QUESTIONS.length === 15, "Should be 15 questions");
+
+  // ---- State ----
+  let userAnswers = new Array(15).fill(null);     // stores index of selected option (0-3) or null
+  let currentQuestionIndex = 0;
+  let assessmentSubmitted = false;
+
+  // DOM elements
+  const questionPanel = document.getElementById("questionPanel");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const resultsPanel = document.getElementById("resultsPanel");
+  const questionCounterSpan = document.getElementById("questionCounter");
+  const answeredStatusSpan = document.getElementById("answeredStatus");
+  const progressFillDiv = document.getElementById("progressFill");
+
+  // helper: update progress bar & answered count
+  function updateProgressAndStats() {
+    const answeredCount = userAnswers.filter(a => a !== null).length;
+    answeredStatusSpan.innerText = `📋 ${answeredCount} / ${QUESTIONS.length} answered`;
+    const percent = (answeredCount / QUESTIONS.length) * 100;
+    progressFillDiv.style.width = `${percent}%`;
+    // update question counter
+    questionCounterSpan.innerText = `Question ${currentQuestionIndex+1} / ${QUESTIONS.length}`;
+  }
+
+  // render current question (based on currentQuestionIndex)
+  function renderCurrentQuestion() {
+    if (assessmentSubmitted) return;
+    const q = QUESTIONS[currentQuestionIndex];
+    const selectedVal = userAnswers[currentQuestionIndex];
+    // build options html
+    let optionsHtml = '';
+    q.options.forEach((opt, idx) => {
+      const checkedAttr = (selectedVal === idx) ? 'checked' : '';
+      optionsHtml += `
+        <div class="option" data-opt-index="${idx}">
+          <input type="radio" name="question" id="opt_${idx}" value="${idx}" ${checkedAttr}>
+          <label for="opt_${idx}">${opt}</label>
+        </div>
+      `;
+    });
+
+    const html = `
+      <div class="question-card">
+        <div class="question-text">${currentQuestionIndex+1}. ${q.text}</div>
+        <div class="options" id="optionsContainer">
+          ${optionsHtml}
+        </div>
+      </div>
+    `;
+    questionPanel.innerHTML = html;
+    // attach event listeners to radio buttons
+    const radioBtns = document.querySelectorAll('input[name="question"]');
+    radioBtns.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const selectedInt = parseInt(e.target.value);
+        if (!isNaN(selectedInt)) {
+          userAnswers[currentQuestionIndex] = selectedInt;
+          updateProgressAndStats();
+        }
+      });
+    });
+    // also attach click on .option div for better UX
+    const optionDivs = document.querySelectorAll('.option');
+    optionDivs.forEach(div => {
+      div.addEventListener('click', (e) => {
+        const radio = div.querySelector('input[type="radio"]');
+        if (radio && !radio.checked) {
+          radio.checked = true;
+          // trigger change
+          const changeEvent = new Event('change', { bubbles: true });
+          radio.dispatchEvent(changeEvent);
+        }
+      });
+    });
+  }
+
+  // navigation
+  function goPrev() {
+    if (assessmentSubmitted) return;
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      renderCurrentQuestion();
+      updateProgressAndStats();
+    }
+  }
+
+  function goNext() {
+    if (assessmentSubmitted) return;
+    if (currentQuestionIndex < QUESTIONS.length - 1) {
+      currentQuestionIndex++;
+      renderCurrentQuestion();
+      updateProgressAndStats();
+    } else {
+      // if on last question, maybe remind user?
+      if (userAnswers.filter(a => a !== null).length < QUESTIONS.length) {
+        // gentle warning: not all answered but they can still submit via submit button
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'warning';
+        warningDiv.innerText = '⚠️ You haven’t answered all questions. Finish or click "Finish & Analyze" anyway.';
+        questionPanel.appendChild(warningDiv);
+        setTimeout(() => warningDiv.remove(), 2000);
+      }
+    }
+  }
+
+  // compute domain-wise performance and gaps
+  function computeResults() {
+    // domain stats: { domainName: { correct: 0, total: 0 } }
+    const domainStats = {};
+    for (let domain in DOMAINS) {
+      domainStats[domain] = { correct: 0, total: 0 };
+    }
+
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      const q = QUESTIONS[i];
+      const domain = q.domain;
+      const userAnswerIdx = userAnswers[i];
+      const isAnswered = (userAnswerIdx !== null);
+      if (isAnswered) {
+        domainStats[domain].total += 1;
+        const isCorrect = (userAnswerIdx === q.correct);
+        if (isCorrect) {
+          domainStats[domain].correct += 1;
+        }
+      } else {
+        // unanswered counts as 'incorrect' for gap analysis? Actually lack of knowledge: we treat as incorrect for scoring
+        domainStats[domain].total += 1;   // total possible questions for that domain
+        domainStats[domain].correct += 0; // no correct, forces lower score
+      }
+    }
+
+    // compute percentage per domain
+    const domainPercentages = {};
+    const domainWeakFlags = []; // domains with < 60%
+    for (let domain in domainStats) {
+      const totalQ = domainStats[domain].total;
+      const correctCount = domainStats[domain].correct;
+      let percent = 0;
+      if (totalQ > 0) {
+        percent = (correctCount / totalQ) * 100;
+      } else {
+        percent = 100; // no questions? not happening here
+      }
+      domainPercentages[domain] = Math.round(percent);
+      if (percent < 60) {
+        domainWeakFlags.push(domain);
+      }
+    }
+    return { domainPercentages, weakDomains: domainWeakFlags, domainStats };
+  }
+
+  // render final report
+  function renderResults() {
+    const { domainPercentages, weakDomains } = computeResults();
+    const totalAnswered = userAnswers.filter(a => a !== null).length;
+    let totalCorrect = 0;
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      if (userAnswers[i] !== null && userAnswers[i] === QUESTIONS[i].correct) {
+        totalCorrect++;
+      }
+    }
+    const overallPercent = (totalCorrect / QUESTIONS.length) * 100;
+
+    // prepare knowledge gap text
+    let gapHtml = '';
+    if (weakDomains.length === 0) {
+      gapHtml = `<div class="knowledge-gap" style="border-left-color:#2c9b77; background:#e0f2e9;">
+        <strong>🌟 Excellent foundation!</strong> You have solid knowledge across all CCNA domains. Still, review official blueprints to stay sharp.
+      </div>`;
+    } else {
+      gapHtml = `<div class="knowledge-gap">
+        <strong>📚 Priority Study Areas (score < 60%) :</strong> Focus your preparation on these domains before the real CCNA exam.
+        <div class="gap-list">
+          ${weakDomains.map(d => `<span class="gap-tag">⚠️ ${d}</span>`).join('')}
+        </div>
+        <p style="margin-top: 12px; font-size:0.9rem;">🔍 Review Cisco's exam topics for <strong>${weakDomains.join(', ')}</strong> and practice labs.</p>
+      </div>`;
+    }
+
+    // build domain score bars
+    let domainListHtml = '';
+    for (let [domain, percent] of Object.entries(domainPercentages)) {
+      let barColor = percent >= 70 ? '#2c9b77' : (percent >= 50 ? '#e6b422' : '#e65c4f');
+      domainListHtml += `
+        <div class="domain-item">
+          <span class="domain-name">${domain}</span>
+          <div class="domain-bar-bg"><div class="domain-bar-fill" style="width: ${percent}%; background: ${barColor};"></div></div>
+          <span class="domain-percent">${percent}%</span>
+        </div>
+      `;
+    }
+
+    const summaryMessage = overallPercent >= 85 ? "Ready for exam prep! Fine-tune weak topics." :
+                           (overallPercent >= 60 ? "Good progress – prioritize weak domains for passing score." :
+                            "Significant gaps detected – follow the study plan below.");
+
+    const resultsHTML = `
+      <h2>📊 CCNA Readiness Report</h2>
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div><span style="font-weight:800;">Score:</span> ${totalCorrect}/${QUESTIONS.length} correct (${Math.round(overallPercent)}%)<br>
+        <span style="font-size:0.9rem;">${summaryMessage}</span></div>
+        <div><span style="font-weight:800;">Answered:</span> ${totalAnswered}/${QUESTIONS.length}</div>
+      </div>
+      ${gapHtml}
+      <div class="domain-score">
+        <strong>📌 Domain Mastery (per domain % correct):</strong>
+        ${domainListHtml}
+      </div>
+      <div style="background:#ebf4fa; border-radius:1rem; padding:1rem; margin-top:1rem;">
+        <strong>🎯 Recommended action plan:</strong>
+        <ul style="margin-left: 1.2rem; margin-top: 0.5rem;">
+          ${weakDomains.length ? weakDomains.map(d => `<li>Review <strong>${d}</strong> theory + lab practice (Boson / Packet Tracer).</li>`).join('') : '<li>Take a full-length practice exam to validate readiness.</li>'}
+          <li>Revisit questions where you guessed incorrectly.</li>
+          <li>🔧 Use Cisco white papers and official cert guides for weak areas.</li>
+        </ul>
+      </div>
+      <div class="reset-area">
+        <button id="restartAssessmentBtn" class="primary">⟳ Restart Assessment</button>
+      </div>
+    `;
+
+    resultsPanel.innerHTML = resultsHTML;
+    resultsPanel.classList.remove("hidden");
+    // attach restart button event
+    const restartBtn = document.getElementById("restartAssessmentBtn");
+    if (restartBtn) {
+      restartBtn.addEventListener("click", () => {
+        resetAssessment();
+      });
+    }
+  }
+
+  // reset everything fully
+  function resetAssessment() {
+    userAnswers = new Array(15).fill(null);
+    currentQuestionIndex = 0;
+    assessmentSubmitted = false;
+    resultsPanel.classList.add("hidden");
+    updateProgressAndStats();
+    renderCurrentQuestion();
+    // enable buttons and normal UI
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+    submitBtn.disabled = false;
+    // reset hidden warning if any
+  }
+
+  // submit final analysis
+  function submitAssessment() {
+    if (assessmentSubmitted) return;
+    // ensure at least some answers (even if partial we treat)
+    assessmentSubmitted = true;
+    renderResults();
+    // optionally disable radio navigation and show only results
+    questionPanel.innerHTML = `<div style="text-align:center; padding:2rem;">✨ Analysis complete — check your personalized report below. ✨</div>`;
+    // disable next/prev but keep restart via results
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    submitBtn.disabled = true;
+  }
+
+  // event bindings
+  prevBtn.addEventListener("click", goPrev);
+  nextBtn.addEventListener("click", goNext);
+  submitBtn.addEventListener("click", submitAssessment);
+
+  // initial load
+  function init() {
+    resetAssessment(); // ensures fresh start
+  }
+
+  init();
+</script>
+</body>
+</html>
